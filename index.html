@@ -64,7 +64,6 @@
             <div class="form-group good-item">
                 <label for="type1">Type 1:</label>
                 <select class="type" onchange="checkOther(this)">
-                    <option value="" selected disabled hidden>Select type</option>
                     <option value="Wood">Wood</option>
                     <option value="Plastic">Plastic</option>
                     <option value="Glass">Glass</option>
@@ -75,14 +74,10 @@
                     <option value="Other">Other</option>
                 </select>
                 <input type="text" class="other-type" placeholder="Specify Type" style="display:none; margin-top: 5px;">
-                <label for="quantity1">Quantity:</label>
+                <label for="quantity1">Quantity (kg):</label>
                 <input type="number" class="quantity" placeholder="Quantity">
-                <label for="unit1">Unit:</label>
-                <select class="unit">
-                    <option value="kg">Kilogram</option>
-                </select>
                 <label for="price1">Price per kg:</label>
-                <input type="number" class="price-per-kg" placeholder="Enter price per kg">
+                <input type="number" class="price" placeholder="Price per kg">
                 <button type="button" onclick="removeItem(this)">Remove</button>
             </div>
         </div>
@@ -100,7 +95,6 @@
             newItem.innerHTML = `
                 <label>Type:</label>
                 <select class="type" onchange="checkOther(this)">
-                    <option value="" selected disabled hidden>Select type</option>
                     <option value="Wood">Wood</option>
                     <option value="Plastic">Plastic</option>
                     <option value="Glass">Glass</option>
@@ -111,14 +105,10 @@
                     <option value="Other">Other</option>
                 </select>
                 <input type="text" class="other-type" placeholder="Specify Type" style="display:none; margin-top: 5px;">
-                <label>Quantity:</label>
+                <label>Quantity (kg):</label>
                 <input type="number" class="quantity" placeholder="Quantity">
-                <label>Unit:</label>
-                <select class="unit">
-                    <option value="kg">Kilogram</option>
-                </select>
                 <label>Price per kg:</label>
-                <input type="number" class="price-per-kg" placeholder="Enter price per kg">
+                <input type="number" class="price" placeholder="Price per kg">
                 <button type="button" onclick="removeItem(this)">Remove</button>
             `;
             goodsContainer.appendChild(newItem);
@@ -146,14 +136,12 @@
                 var typeSelect = item.querySelector('.type');
                 var type = typeSelect.value === 'Other' ? item.querySelector('.other-type').value : typeSelect.value;
                 var quantity = item.querySelector('.quantity').value;
-                var unit = item.querySelector('.unit').value;
-                var pricePerKg = item.querySelector('.price-per-kg').value;
+                var price = item.querySelector('.price').value;
 
                 data[`item${index + 1}`] = {
                     type: type,
                     quantity: quantity,
-                    unit: unit,
-                    pricePerKg: pricePerKg
+                    price: price
                 };
             });
 
