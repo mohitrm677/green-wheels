@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Wheels</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: green;
+        color: white;
+        text-align: center;
+    }
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: green;
+    }
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #fff;
+        color: black;
+    }
+    .form-group button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    h1 {
+        font-size: 2.5em;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: black;
+        text-shadow: 2px 2px #333;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Green Wheels</h1>
+        <div id="goodsContainer">
+            <div class="form-group good-item">
+                <label for="type1">Type 1:</label>
+                <select class="type" onchange="checkOther(this)">
+                    <option value="" selected disabled hidden>Select type</option>
+                    <option value="Wood">Wood</option>
+                    <option value="Plastic">Plastic</option>
+                    <option value="Glass">Glass</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Copper">Copper</option>
+                    <option value="Paper">Paper</option>
+                    <option value="Cardboard">Cardboard</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" class="other-type" placeholder="Specify Type" style="display:none; margin-top: 5px;">
+                <label for="quantity1">Quantity:</label>
+                <input type="number" class="quantity" placeholder="Quantity">
+                <label for="unit1">Unit:</label>
+                <select class="unit">
+                    <option value="kg">Kilogram</option>
+                </select>
+                <label for="price1">Price per kg:</label>
+                <input type="number" class="price-per-kg" placeholder="Enter price per kg">
+                <button type="button" onclick="removeItem(this)">Remove</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="addItem()">Add Item</button>
+            <button type="button" onclick="confirmAndProceed()">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        function addItem() {
+            var goodsContainer = document.getElementById('goodsContainer');
+            var newItem = document.createElement('div');
+            newItem.className = 'form-group good-item';
+            newItem.innerHTML = `
+                <label>Type:</label>
+                <select class="type" onchange="checkOther(this)">
+                    <option value="" selected disabled hidden>Select type</option>
+                    <option value="Wood">Wood</option>
+                    <option value="Plastic">Plastic</option>
+                    <option value="Glass">Glass</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Copper">Copper</option>
+                    <option value="Paper">Paper</option>
+                    <option value="Cardboard">Cardboard</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" class="other-type" placeholder="Specify Type" style="display:none; margin-top: 5px;">
+                <label>Quantity:</label>
+                <input type="number" class="quantity" placeholder="Quantity">
+                <label>Unit:</label>
+                <select class="unit">
+                    <option value="kg">Kilogram</option>
+                </select>
+                <label>Price per kg:</label>
+                <input type="number" class="price-per-kg" placeholder="Enter price per kg">
+                <button type="button" onclick="removeItem(this)">Remove</button>
+            `;
+            goodsContainer.appendChild(newItem);
+        }
+
+        function removeItem(button) {
+            var item = button.parentElement;
+            item.parentElement.removeChild(item);
+        }
+
+        function checkOther(selectElement) {
+            var otherInput = selectElement.nextElementSibling;
+            if (selectElement.value === 'Other') {
+                otherInput.style.display = 'block';
+            } else {
+                otherInput.style.display = 'none';
+            }
+        }
+
+        function confirmAndProceed() {
+            var items = document.querySelectorAll('.good-item');
+            var data = {};
+
+            items.forEach(function(item, index) {
+                var typeSelect = item.querySelector('.type');
+                var type = typeSelect.value === 'Other' ? item.querySelector('.other-type').value : typeSelect.value;
+                var quantity = item.querySelector('.quantity').value;
+                var unit = item.querySelector('.unit').value;
+                var pricePerKg = item.querySelector('.price-per-kg').value;
+
+                data[`item${index + 1}`] = {
+                    type: type,
+                    quantity: quantity,
+                    unit: unit,
+                    pricePerKg: pricePerKg
+                };
+            });
+
+            // Store data in localStorage to pass to the result page
+            localStorage.setItem('goodsData', JSON.stringify(data));
+
+            // Redirect to the result page
+            window.location.href = 'result.html';
+        }
+    </script>
+</body>
+</html>

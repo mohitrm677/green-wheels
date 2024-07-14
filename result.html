@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Wheels - Result</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: green;
+        color: white;
+        text-align: center;
+    }
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: green;
+    }
+    h1 {
+        font-size: 2.5em;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: black;
+        text-shadow: 2px 2px #333;
+    }
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        color: black;
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Green Wheels - Result</h1>
+        <div class="result" id="result">
+            <!-- Result content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve data from localStorage
+            var data = JSON.parse(localStorage.getItem('goodsData'));
+
+            // Calculate total price based on data
+            var totalPrice = calculateTotalPrice(data);
+
+            // Display result on the page
+            displayResult(totalPrice);
+        });
+
+        function calculateTotalPrice(data) {
+            var totalPrice = 0;
+
+            for (var key in data) {
+                var item = data[key];
+                var quantity = item.quantity;
+                var pricePerKg = item.pricePerKg;
+
+                var price = pricePerKg * quantity;
+                totalPrice += price;
+            }
+
+            return totalPrice;
+        }
+
+        function displayResult(totalPrice) {
+            var resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = `
+                <h2>Total Price: ₹${totalPrice.toFixed(2)}</h2>
+                <p>Thank you for your order!</p>
+            `;
+        }
+    </script>
+</body>
+</html>
